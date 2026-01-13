@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Longevidence - Research Platform (Version B Enhanced)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e5e9f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-tab {
+            padding: 8px 20px;
+            border: none;
+            background: none;
+            color: #5a6c7d;
+            font-size: 15px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover {
+            background: #f0f2f5;
+            color: #2c3e50;
+        }
+
+        .nav-tab.active {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .workspace-count {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .search-bar-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .search-bar {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: #f0f2f5;
+            border-radius: 8px;
+            padding: 12px 16px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .search-bar:focus-within {
+            background: white;
+            border-color: #4a90e2;
+            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.1);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            background: none;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .search-button:hover {
+            background: #3a7bc8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .home-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .home-logo {
+            font-size: 48px;
+            font-weight: 300;
+            color: #d5d8dc;
+            margin-bottom: 40px;
+        }
+
+        .stats {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-top: 40px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats h3 {
+            font-size: 16px;
+            color: #d5d8dc;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .stats p {
+            font-size: 14px;
+            color: #a8b2c1;
+            margin-bottom: 16px;
+        }
+
+        .main-findings {
+            margin-top: 32px;
+        }
+
+        .main-findings h3 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 24px;
+            font-weight: 300;
+        }
+
+        .finding-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .finding-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .finding-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .finding-title {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 16px;
+        }
+
+        .evidence-score {
+            flex-shrink: 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-left: 24px;
+        }
+
+        .score-number {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .score-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .finding-content {
+            margin-bottom: 20px;
+        }
+
+        .finding-summary {
+            font-size: 15px;
+            color: #2c3e50;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .finding-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .detail-item {
+            font-size: 14px;
+            color: #5a6c7d;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .finding-link {
+            color: #4a90e2;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 12px;
+            transition: all 0.2s;
+        }
+
+        .finding-link:hover {
+            color: #3a7bc8;
+            gap: 8px;
+        }
+
+        .add-to-workspace-btn {
+            background: white;
+            color: #4a90e2;
+            border: 2px solid #4a90e2;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .add-to-workspace-btn:hover {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .add-to-workspace-btn.added {
+            background: #e8f5e9;
+            color: #4caf50;
+            border-color: #4caf50;
+            cursor: default;
+        }
+
+        /* Workspace Styles */
+        .workspace-empty {
+            text-align: center;
+            padding: 80px 40px;
+        }
+
+        .workspace-empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .workspace-empty-text {
+            font-size: 18px;
+            color: #8897a7;
+        }
+
+        .workspace-item {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .workspace-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .workspace-item-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .workspace-item-score {
+            font-size: 20px;
+            font-weight: 700;
+            color: #4caf50;
+        }
+
+        .workspace-item-content {
+            font-size: 14px;
+            color: #5a6c7d;
+            line-height: 1.6;
+        }
+
+        .workspace-item-actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .workspace-action-btn {
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .remove-btn {
+            background: #ffebee;
+            color: #e53935;
+        }
+
+        .remove-btn:hover {
+            background: #e53935;
+            color: white;
+        }
+
+        .create-plan-section {
+            text-align: center;
+            margin-top: 48px;
+            padding: 48px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .create-plan-button {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            border: none;
+            padding: 18px 64px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        .create-plan-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(74, 144, 226, 0.4);
+        }
+
+        /* Upload Report Styles */
+        .upload-zone {
+            background: white;
+            border: 3px dashed #cbd5e0;
+            border-radius: 16px;
+            padding: 80px 40px;
+            margin: 40px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .upload-zone:hover {
+            border-color: #4a90e2;
+            background: #f8fbff;
+        }
+
+        .upload-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .upload-text {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .upload-hint {
+            font-size: 14px;
+            color: #8897a7;
+        }
+
+        .biomarker-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid transparent;
+        }
+
+        .biomarker-card.status-low {
+            border-left-color: #e53935;
+        }
+
+        .biomarker-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .biomarker-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .search-hint {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        .search-hint-text {
+            font-size: 14px;
+            color: #5a6c7d;
+        }
+
+        /* Detail Panel */
+        .detail-panel {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 480px;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            z-index: 200;
+        }
+
+        .detail-panel.active {
+            transform: translateX(0);
+        }
+
+        .detail-header {
+            padding: 24px;
+            border-bottom: 1px solid #e5e9f0;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #8897a7;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .close-button:hover {
+            background: #f0f2f5;
+            color: #2c3e50;
+        }
+
+        .detail-content {
+            padding: 24px;
+        }
+
+        .detail-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .study-meta {
+            margin-bottom: 24px;
+        }
+
+        .study-meta-item {
+            font-size: 13px;
+            color: #5a6c7d;
+            margin-bottom: 8px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .study-meta-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #4a90e2;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 24px 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-content {
+            font-size: 14px;
+            color: #5a6c7d;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .studies-list {
+            margin-top: 16px;
+        }
+
+        .study-item {
+            padding: 16px;
+            background: #f8f9fb;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .study-item strong {
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 150;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 300;
+            color: #2c3e50;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .detail-panel {
+                width: 100%;
+            }
+            
+            .finding-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">[Longevidence Logo]</div>
+        <div class="nav-tabs" id="navTabs" style="display: none;">
+            <button class="nav-tab active" onclick="switchTab('search')">Search</button>
+            <button class="nav-tab" onclick="switchTab('upload')">Upload Report</button>
+            <button class="nav-tab" onclick="switchTab('workspace')">
+                My Workspace <span class="workspace-count" id="workspaceCount">(0)</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <div id="homePage" class="home-container">
+        <div class="home-logo">[Longevidence Logo]</div>
+        
+        <div class="home-search">
+            <div class="search-bar-container">
+                <div class="search-bar">
+                    <input type="text" 
+                           id="homeSearchInput" 
+                           placeholder="Search supplements, biomarkers, interventions..." 
+                           value="Vitamin D longevity">
+                    <span style="font-size: 18px; color: #8897a7;">🔍</span>
+                </div>
+                <button class="search-button" onclick="performSearch()">Search</button>
+            </div>
+            <button class="upload-button" style="margin: 16px auto 0; display: inline-flex; background: white; color: #4a90e2; border: 2px solid #4a90e2; padding: 10px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.2s; align-items: center; gap: 8px;" 
+                    onclick="goToUpload()" 
+                    onmouseover="this.style.background='#4a90e2'; this.style.color='white';" 
+                    onmouseout="this.style.background='white'; this.style.color='#4a90e2';">
+                <span>📤</span>
+                Upload Report
+            </button>
+        </div>
+
+        <div class="stats">
+            <h3>Powered by 12,345,678+ Multi-Omics Samples</h3>
+            <p>Covering 123 age-related conditions across 18 countries</p>
+            <p style="font-size: 13px; margin: 0;">Evidence-based longevity research platform</p>
+        </div>
+    </div>
+
+    <!-- Search Results Page -->
+    <div id="resultsPage" class="container hidden">
+        <div class="search-bar-container">
+            <div class="search-bar">
+                <input type="text" 
+                       id="resultsSearchInput" 
+                       placeholder="Search supplements, biomarkers, interventions..." 
+                       value="Vitamin D longevity">
+                <span style="font-size: 18px; color: #8897a7;">🔍</span>
+            </div>
+            <button class="search-button" onclick="performSearch()">Search</button>
+        </div>
+
+        <div class="main-findings">
+            <h3>Main Findings:</h3>
+
+            <!-- Finding Card 1: Vitamin D (9.2) -->
+            <div class="finding-card">
+                <div class="finding-header">
+                    <div style="flex: 1;">
+                        <h4 class="finding-title">Vitamin D</h4>
+                        <div class="finding-content">
+                            <p class="finding-summary">Vitamin D is correlated with decelerated biological aging</p>
+                            <div class="finding-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Dosage:</span> 2,000-4,000 IU/day
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Expected Improvement:</span> +15-25 ng/mL in 8-12 weeks
+                                </div>
+                            </div>
+                            <a href="#" class="finding-link" onclick="event.preventDefault(); showDetail('vitaminD')">
+                                Based on: 8,234 samples Click to see related studies →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="evidence-score" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
+                        <div class="score-number" style="color: #4caf50;">9.2</div>
+                        <div class="score-label" style="color: #66bb6a;">EVIDENCE<br>SCORE</div>
+                    </div>
+                </div>
+                <div style="margin-top: 16px;">
+                    <button class="add-to-workspace-btn" id="add-vitaminD" onclick="addToWorkspace('vitaminD', 'Vitamin D', '9.2', '2,000-4,000 IU/day')">
+                        + Add to Workspace
+                    </button>
+                </div>
+            </div>
+
+            <!-- Finding Card 2: Omega-3 (8.7) -->
+            <div class="finding-card">
+                <div class="finding-header">
+                    <div style="flex: 1;">
+                        <h4 class="finding-title">Omega-3 (EPA+DHA)</h4>
+                        <div class="finding-content">
+                            <p class="finding-summary">Omega-3 supplementation shows strong evidence for cardiovascular health and biological age reduction</p>
+                            <div class="finding-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Dosage:</span> 2,000mg EPA+DHA/day
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Expected Improvement:</span> Omega-3 index +3.2% in 12 weeks
+                                </div>
+                            </div>
+                            <a href="#" class="finding-link" onclick="event.preventDefault(); showDetail('omega3')">
+                                Based on: 6,892 samples Click to see related studies →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="evidence-score" style="background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);">
+                        <div class="score-number" style="color: #f9a825;">8.7</div>
+                        <div class="score-label" style="color: #fbc02d;">EVIDENCE<br>SCORE</div>
+                    </div>
+                </div>
+                <div style="margin-top: 16px;">
+                    <button class="add-to-workspace-btn" id="add-omega3" onclick="addToWorkspace('omega3', 'Omega-3 (EPA+DHA)', '8.7', '2,000mg EPA+DHA/day')">
+                        + Add to Workspace
+                    </button>
+                </div>
+            </div>
+
+            <!-- Finding Card 3: HbA1c (7.6) -->
+            <div class="finding-card">
+                <div class="finding-header">
+                    <div style="flex: 1;">
+                        <h4 class="finding-title">Curcumin</h4>
+                        <div class="finding-content">
+                            <p class="finding-summary">Curcumin shows consistent anti-inflammatory effects and may support healthy aging</p>
+                            <div class="finding-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Dosage:</span> 500mg 2x/day with piperine
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Expected Improvement:</span> ↓15-20% inflammatory markers
+                                </div>
+                            </div>
+                            <a href="#" class="finding-link" onclick="event.preventDefault(); showDetail('curcumin')">
+                                Based on: 3,420 samples Click to see related studies →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="evidence-score" style="background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);">
+                        <div class="score-number" style="color: #e53935;">7.6</div>
+                        <div class="score-label" style="color: #ef5350;">EVIDENCE<br>SCORE</div>
+                    </div>
+                </div>
+                <div style="margin-top: 16px;">
+                    <button class="add-to-workspace-btn" id="add-curcumin" onclick="addToWorkspace('curcumin', 'Curcumin', '7.6', '500mg 2x/day with piperine')">
+                        + Add to Workspace
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Report Page -->
+    <div id="uploadPage" class="container hidden">
+        <h1 class="page-title">Upload Patient Report</h1>
+        
+        <div class="upload-zone" onclick="simulateUpload()">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">Click to upload or drag and drop</div>
+            <div class="upload-hint">PDF, JPG, PNG (max 10MB)</div>
+        </div>
+
+        <div id="uploadResults" class="hidden">
+            <h2 style="font-size: 22px; margin-bottom: 24px; color: #2c3e50;">Extracted Biomarkers</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+                <div class="biomarker-card status-low">
+                    <div class="biomarker-name">Vitamin D</div>
+                    <div class="biomarker-value">25 ng/mL</div>
+                    <div style="font-size: 14px; color: #5a6c7d;">Optimal: 40-60 ng/mL</div>
+                    <div class="search-hint">
+                        <div class="search-hint-text">
+                            💡 <strong>Suggestion:</strong> Search for "Vitamin D supplementation" to find evidence-based interventions
+                        </div>
+                    </div>
+                </div>
+
+                <div class="biomarker-card status-low">
+                    <div class="biomarker-name">Omega-3 Index</div>
+                    <div class="biomarker-value">4.2%</div>
+                    <div style="font-size: 14px; color: #5a6c7d;">Optimal: >8%</div>
+                    <div class="search-hint">
+                        <div class="search-hint-text">
+                            💡 <strong>Suggestion:</strong> Search for "Omega-3 supplementation" to find interventions
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 48px;">
+                <button class="search-button" onclick="switchTab('search')">
+                    Go to Search →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workspace Page -->
+    <div id="workspacePage" class="container hidden">
+        <h1 class="page-title">My Workspace</h1>
+        
+        <div id="workspaceEmpty" class="workspace-empty">
+            <div class="workspace-empty-icon">📋</div>
+            <div class="workspace-empty-text">No interventions collected yet</div>
+            <div style="margin-top: 16px; font-size: 14px; color: #a8b2c1;">
+                Search for interventions and add them to your workspace
+            </div>
+        </div>
+
+        <div id="workspaceContent" class="hidden">
+            <div id="workspaceItems"></div>
+
+            <div class="create-plan-section">
+                <h2 style="margin-bottom: 16px; color: #2c3e50;">Ready to Create Treatment Plan?</h2>
+                <p style="color: #5a6c7d; margin-bottom: 32px;">
+                    Organize your collected interventions into a patient-ready treatment plan
+                </p>
+                <button class="create-plan-button" onclick="createPlan()">
+                    Create Treatment Plan →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Plan Page (Simplified) -->
+    <div id="createPlanPage" class="container hidden">
+        <h1 class="page-title">Create Treatment Plan</h1>
+        
+        <div style="background: white; border-radius: 12px; padding: 48px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);">
+            <h2 style="font-size: 24px; margin-bottom: 24px; color: #2c3e50;">Treatment Plan Editor</h2>
+            
+            <div style="background: #f8f9fb; padding: 24px; border-radius: 8px; margin-bottom: 24px;">
+                <h3 style="font-size: 18px; margin-bottom: 16px; color: #2c3e50;">Selected Interventions:</h3>
+                <div id="planInterventions"></div>
+            </div>
+
+            <div style="margin-top: 32px;">
+                <label style="display: block; font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 8px;">
+                    Additional Notes (optional):
+                </label>
+                <textarea 
+                    style="width: 100%; min-height: 120px; padding: 12px; border: 2px solid #e5e9f0; border-radius: 8px; font-size: 14px; font-family: inherit;"
+                    placeholder="Add any additional instructions or notes for the patient..."></textarea>
+            </div>
+
+            <div style="margin-top: 32px; display: flex; gap: 16px;">
+                <button class="create-plan-button" onclick="generateFinalPlan()">
+                    Generate Treatment Plan →
+                </button>
+                <button onclick="switchTab('workspace')" style="padding: 18px 32px; background: white; border: 2px solid #e5e9f0; color: #5a6c7d; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                    Back to Workspace
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Plan Page -->
+    <div id="finalPlanPage" class="container hidden">
+        <h1 class="page-title" style="text-align: center;">Treatment Plan Generated</h1>
+        
+        <div style="background: white; border-radius: 12px; padding: 48px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); max-width: 800px; margin: 0 auto;">
+            <div style="border-bottom: 2px solid #e5e9f0; padding-bottom: 24px; margin-bottom: 32px;">
+                <h2 style="font-size: 32px; font-weight: 300; color: #2c3e50; margin-bottom: 8px;">Personalized Treatment Plan</h2>
+                <p style="font-size: 14px; color: #8897a7;">Manually curated by physician | Generated: January 13, 2026</p>
+            </div>
+
+            <div style="margin-bottom: 32px;">
+                <h3 style="font-size: 20px; font-weight: 600; color: #2c3e50; margin-bottom: 16px;">Recommended Interventions</h3>
+                <div id="finalPlanContent"></div>
+            </div>
+
+            <div style="margin-top: 48px; padding-top: 32px; border-top: 2px solid #e5e9f0; display: flex; gap: 16px;">
+                <button style="flex: 1; padding: 16px; background: #4a90e2; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                    📥 Download PDF
+                </button>
+                <button onclick="switchTab('workspace')" style="flex: 1; padding: 16px; background: white; color: #5a6c7d; border: 2px solid #e5e9f0; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                    ✏️ Edit Plan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Study Detail Panel -->
+    <div class="overlay" id="overlay" onclick="closeDetail()"></div>
+    <div class="detail-panel" id="detailPanel">
+        <div class="detail-header">
+            <button class="close-button" onclick="closeDetail()">✕</button>
+        </div>
+        <div class="detail-content" id="detailContent">
+            <!-- Content will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let workspace = [];
+        let currentTab = 'search';
+
+        function performSearch() {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('resultsPage').classList.remove('hidden');
+            document.getElementById('navTabs').style.display = 'flex';
+            currentTab = 'search';
+        }
+
+        function goToUpload() {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('uploadPage').classList.remove('hidden');
+            document.getElementById('navTabs').style.display = 'flex';
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-tab')[1].classList.add('active');
+            currentTab = 'upload';
+        }
+
+        function switchTab(tab) {
+            // Hide all pages
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('resultsPage').classList.add('hidden');
+            document.getElementById('uploadPage').classList.add('hidden');
+            document.getElementById('workspacePage').classList.add('hidden');
+            document.getElementById('createPlanPage').classList.add('hidden');
+            document.getElementById('finalPlanPage').classList.add('hidden');
+
+            // Update nav
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            
+            // Show selected page
+            if (tab === 'search') {
+                document.getElementById('resultsPage').classList.remove('hidden');
+                document.querySelectorAll('.nav-tab')[0].classList.add('active');
+            } else if (tab === 'upload') {
+                document.getElementById('uploadPage').classList.remove('hidden');
+                document.querySelectorAll('.nav-tab')[1].classList.add('active');
+            } else if (tab === 'workspace') {
+                document.getElementById('workspacePage').classList.remove('hidden');
+                document.querySelectorAll('.nav-tab')[2].classList.add('active');
+                updateWorkspaceView();
+            }
+            
+            currentTab = tab;
+        }
+
+        function addToWorkspace(id, name, score, dosage) {
+            // Check if already added
+            if (workspace.find(item => item.id === id)) {
+                return;
+            }
+
+            workspace.push({ id, name, score, dosage });
+            
+            // Update button
+            const btn = document.getElementById('add-' + id);
+            btn.textContent = '✓ Added to Workspace';
+            btn.classList.add('added');
+            btn.disabled = true;
+
+            // Update counter
+            document.getElementById('workspaceCount').textContent = '(' + workspace.length + ')';
+        }
+
+        function removeFromWorkspace(id) {
+            workspace = workspace.filter(item => item.id !== id);
+            document.getElementById('workspaceCount').textContent = '(' + workspace.length + ')';
+            
+            // Reset button in search results
+            const btn = document.getElementById('add-' + id);
+            if (btn) {
+                btn.textContent = '+ Add to Workspace';
+                btn.classList.remove('added');
+                btn.disabled = false;
+            }
+
+            updateWorkspaceView();
+        }
+
+        function updateWorkspaceView() {
+            if (workspace.length === 0) {
+                document.getElementById('workspaceEmpty').classList.remove('hidden');
+                document.getElementById('workspaceContent').classList.add('hidden');
+            } else {
+                document.getElementById('workspaceEmpty').classList.add('hidden');
+                document.getElementById('workspaceContent').classList.remove('hidden');
+                
+                const container = document.getElementById('workspaceItems');
+                container.innerHTML = workspace.map(item => `
+                    <div class="workspace-item">
+                        <div class="workspace-item-header">
+                            <div class="workspace-item-title">${item.name}</div>
+                            <div class="workspace-item-score">${item.score}/10</div>
+                        </div>
+                        <div class="workspace-item-content">
+                            <strong>Recommended Dosage:</strong> ${item.dosage}
+                        </div>
+                        <div class="workspace-item-actions">
+                            <button class="workspace-action-btn remove-btn" onclick="removeFromWorkspace('${item.id}')">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function createPlan() {
+            document.getElementById('workspacePage').classList.add('hidden');
+            document.getElementById('createPlanPage').classList.remove('hidden');
+            
+            const container = document.getElementById('planInterventions');
+            container.innerHTML = workspace.map(item => `
+                <div style="background: white; padding: 16px; border-radius: 8px; margin-bottom: 12px;">
+                    <div style="font-size: 16px; font-weight: 600; color: #2c3e50; margin-bottom: 4px;">
+                        ${item.name} <span style="color: #4caf50; font-size: 14px;">(${item.score}/10)</span>
+                    </div>
+                    <div style="font-size: 14px; color: #5a6c7d;">${item.dosage}</div>
+                </div>
+            `).join('');
+        }
+
+        function generateFinalPlan() {
+            document.getElementById('createPlanPage').classList.add('hidden');
+            document.getElementById('finalPlanPage').classList.remove('hidden');
+            
+            const container = document.getElementById('finalPlanContent');
+            container.innerHTML = workspace.map((item, index) => `
+                <div style="background: #f8f9fb; padding: 24px; border-radius: 8px; margin-bottom: 16px;">
+                    <div style="font-size: 18px; font-weight: 600; color: #2c3e50; margin-bottom: 12px;">
+                        ${index + 1}. ${item.name}
+                    </div>
+                    <div style="font-size: 14px; color: #5a6c7d; line-height: 1.8;">
+                        <strong>Dosage:</strong> ${item.dosage}<br>
+                        <strong>Evidence Score:</strong> ${item.score}/10 (High-quality evidence)<br>
+                        <strong>Instructions:</strong> Take daily with meals for optimal absorption
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function simulateUpload() {
+            document.getElementById('uploadResults').classList.remove('hidden');
+        }
+
+        function showDetail(findingId) {
+            const detailContent = document.getElementById('detailContent');
+            const overlay = document.getElementById('overlay');
+            const panel = document.getElementById('detailPanel');
+            
+            const details = {
+                vitaminD: {
+                    title: 'Vitamin D3 Supplementation: Evidence Summary',
+                    meta: [
+                        'Evidence Score: 9.2/10 (Very High Quality)',
+                        'Total Studies: 47 Randomized Controlled Trials',
+                        'Total Participants: 8,234 individuals',
+                        'Study Duration: 8-52 weeks (median: 16 weeks)'
+                    ],
+                    summary: 'Comprehensive meta-analysis demonstrates consistent evidence for vitamin D3 supplementation at 4,000 IU/day in adults with suboptimal vitamin D levels.',
+                    studies: [
+                        '<strong>Study 1 (n=2,156):</strong> RCT, 24 weeks, 4000 IU/day → +16.2 ng/mL increase (JAMA, 2023)',
+                        '<strong>Study 2 (n=1,892):</strong> RCT, 12 weeks, 4000 IU/day → Epigenetic age -2.3 years (NEJM, 2022)',
+                        '<strong>Study 3 (n=3,421):</strong> Cohort, 52 weeks → Inflammation markers -18% (Lancet, 2023)'
+                    ]
+                },
+                omega3: {
+                    title: 'Omega-3 (EPA+DHA) Supplementation: Evidence Summary',
+                    meta: [
+                        'Evidence Score: 8.7/10 (High Quality)',
+                        'Total Studies: 31 Randomized Controlled Trials',
+                        'Total Participants: 6,892 individuals'
+                    ],
+                    summary: 'Strong evidence from 31 RCTs examining EPA+DHA supplementation at 2,000mg/day.',
+                    studies: [
+                        '<strong>Study 1 (n=2,435):</strong> RCT, 24 weeks → Omega-3 index +3.4% (Circulation, 2023)',
+                        '<strong>Study 2 (n=1,567):</strong> RCT, 52 weeks → Telomere attrition -32% (Nature Medicine, 2022)'
+                    ]
+                },
+                curcumin: {
+                    title: 'Curcumin Supplementation: Evidence Summary',
+                    meta: [
+                        'Evidence Score: 7.6/10 (Good Quality)',
+                        'Total Studies: 23 Randomized Controlled Trials',
+                        'Total Participants: 3,420 individuals'
+                    ],
+                    summary: 'Evidence from 23 RCTs examining bioavailable curcumin formulations.',
+                    studies: [
+                        '<strong>Study 1 (n=892):</strong> RCT, 12 weeks → hsCRP -19% (Phytotherapy Research, 2022)',
+                        '<strong>Study 2 (n=634):</strong> RCT, 16 weeks → Inflammation markers -17% (J Clinical Medicine, 2023)'
+                    ]
+                }
+            };
+
+            const detail = details[findingId];
+            
+            let html = `
+                <h2 class="detail-title">${detail.title}</h2>
+                
+                <div class="study-meta">
+                    ${detail.meta.map(item => `<div class="study-meta-item">${item}</div>`).join('')}
+                </div>
+
+                <div class="section-title">Evidence Summary</div>
+                <div class="section-content">${detail.summary}</div>
+
+                <div class="section-title">Key Studies</div>
+                <div class="studies-list">
+                    ${detail.studies.map(study => `<div class="study-item">${study}</div>`).join('')}
+                </div>
+            `;
+
+            detailContent.innerHTML = html;
+            overlay.classList.add('active');
+            panel.classList.add('active');
+        }
+
+        function closeDetail() {
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('detailPanel').classList.remove('active');
+        }
+
+        // Handle escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDetail();
+            }
+        });
+    </script>
+</body>
+</html>

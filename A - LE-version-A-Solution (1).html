@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Longevidence - Action Plan Platform (Version A)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e5e9f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        #recommendationsScreen {
+            padding-bottom: 100px;
+        }
+
+        .home-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 40px 100px 40px;
+            text-align: center;
+        }
+
+        .home-logo {
+            font-size: 48px;
+            font-weight: 300;
+            color: #d5d8dc;
+            margin-bottom: 40px;
+        }
+
+        .upload-zone {
+            background: white;
+            border: 3px dashed #cbd5e0;
+            border-radius: 16px;
+            padding: 80px 40px;
+            margin: 40px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-zone:hover {
+            border-color: #4a90e2;
+            background: #f8fbff;
+        }
+
+        .upload-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .upload-text {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .upload-hint {
+            font-size: 14px;
+            color: #8897a7;
+        }
+
+        .upload-button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: all 0.2s;
+        }
+
+        .upload-button:hover {
+            background: #3a7bc8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        .stats {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-top: 40px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats h3 {
+            font-size: 16px;
+            color: #d5d8dc;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .stats p {
+            font-size: 14px;
+            color: #a8b2c1;
+            margin-bottom: 16px;
+        }
+
+        /* Processing Screen */
+        .processing-container {
+            max-width: 600px;
+            margin: 120px auto;
+            text-align: center;
+        }
+
+        .processing-animation {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 32px;
+            border: 4px solid #e5e9f0;
+            border-top-color: #4a90e2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .processing-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 16px;
+        }
+
+        .processing-step {
+            font-size: 16px;
+            color: #4a90e2;
+            margin: 8px 0;
+        }
+
+        /* Analysis Results */
+        .page-title {
+            font-size: 28px;
+            font-weight: 300;
+            color: #2c3e50;
+            margin-bottom: 32px;
+        }
+
+        /* Bottom Search Bar */
+        .bottom-search-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e5e9f0;
+            padding: 16px 0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+            z-index: 90;
+        }
+
+        .bottom-search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .bottom-search-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e5e9f0;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #2c3e50;
+            transition: all 0.2s;
+        }
+
+        .bottom-search-input::placeholder {
+            color: #a8b2c1;
+        }
+
+        .bottom-search-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            background: white;
+        }
+
+        .bottom-search-button {
+            background: #f8f9fb;
+            border: 2px solid #e5e9f0;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 18px;
+        }
+
+        .bottom-search-button:hover {
+            background: #4a90e2;
+            border-color: #4a90e2;
+        }
+
+        .bottom-search-button:hover span {
+            filter: grayscale(1) brightness(10);
+        }
+
+        .biomarkers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .biomarker-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .biomarker-card.status-low {
+            border-left-color: #e53935;
+        }
+
+        .biomarker-card.status-high {
+            border-left-color: #ff9800;
+        }
+
+        .biomarker-card.status-normal {
+            border-left-color: #4caf50;
+        }
+
+        .biomarker-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .biomarker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .biomarker-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .biomarker-status {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-low {
+            background: #ffebee;
+            color: #e53935;
+        }
+
+        .status-high {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+
+        .status-normal {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+
+        .biomarker-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .biomarker-range {
+            font-size: 14px;
+            color: #5a6c7d;
+        }
+
+        .biomarker-implications {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e5e9f0;
+            font-size: 14px;
+            color: #5a6c7d;
+        }
+
+        .continue-button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .continue-button:hover {
+            background: #3a7bc8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        /* Recommendations */
+        .recommendations-intro {
+            background: #f8fbff;
+            border-left: 4px solid #4a90e2;
+            padding: 20px 24px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+        }
+
+        .recommendations-intro p {
+            color: #5a6c7d;
+            font-size: 15px;
+        }
+
+        .recommendation-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+        }
+
+        .recommendation-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .recommendation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .recommendation-main {
+            flex: 1;
+        }
+
+        .recommendation-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-dosage {
+            font-size: 16px;
+            color: #5a6c7d;
+            margin-bottom: 16px;
+        }
+
+        .evidence-badge {
+            flex-shrink: 0;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-left: 24px;
+        }
+
+        .evidence-score-large {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .evidence-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .recommendation-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f8f9fb;
+            border-radius: 8px;
+        }
+
+        .detail-item {
+            font-size: 14px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            color: #5a6c7d;
+        }
+
+        .recommendation-rationale {
+            margin-bottom: 20px;
+        }
+
+        .rationale-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .rationale-text {
+            font-size: 14px;
+            color: #5a6c7d;
+            line-height: 1.6;
+        }
+
+        .evidence-link {
+            color: #4a90e2;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .evidence-link:hover {
+            color: #3a7bc8;
+            gap: 8px;
+        }
+
+        .recommendation-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-button {
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .action-included {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .action-included:hover {
+            background: #3a7bc8;
+        }
+
+        .action-adjust {
+            background: white;
+            color: #5a6c7d;
+            border: 2px solid #e5e9f0;
+        }
+
+        .action-adjust:hover {
+            border-color: #cbd5e0;
+            background: #f8f9fb;
+        }
+
+        .action-remove {
+            background: white;
+            color: #e53935;
+            border: 2px solid #ffebee;
+        }
+
+        .action-remove:hover {
+            background: #ffebee;
+        }
+
+        .generate-plan-section {
+            text-align: center;
+            margin-top: 48px;
+            padding: 48px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .generate-plan-button {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            border: none;
+            padding: 18px 64px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        .generate-plan-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(74, 144, 226, 0.4);
+        }
+
+        /* Action Plan Preview */
+        .plan-preview {
+            background: white;
+            border-radius: 12px;
+            padding: 48px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .plan-header {
+            border-bottom: 2px solid #e5e9f0;
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+        }
+
+        .plan-title {
+            font-size: 32px;
+            font-weight: 300;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .plan-subtitle {
+            font-size: 16px;
+            color: #8897a7;
+        }
+
+        .plan-section {
+            margin-bottom: 32px;
+        }
+
+        .plan-section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 16px;
+        }
+
+        .plan-intervention {
+            background: #f8f9fb;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .intervention-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .intervention-details {
+            font-size: 14px;
+            color: #5a6c7d;
+            line-height: 1.8;
+        }
+
+        .plan-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #e5e9f0;
+        }
+
+        .plan-action-button {
+            flex: 1;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .download-button {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .download-button:hover {
+            background: #3a7bc8;
+        }
+
+        .edit-button {
+            background: white;
+            color: #5a6c7d;
+            border: 2px solid #e5e9f0;
+        }
+
+        .edit-button:hover {
+            background: #f8f9fb;
+        }
+
+        /* Detail Panel Styles */
+        .detail-panel {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 480px;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            z-index: 200;
+        }
+
+        .detail-panel.active {
+            transform: translateX(0);
+        }
+
+        .detail-header {
+            padding: 24px;
+            border-bottom: 1px solid #e5e9f0;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #8897a7;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .close-button:hover {
+            background: #f0f2f5;
+            color: #2c3e50;
+        }
+
+        .detail-content {
+            padding: 24px;
+        }
+
+        .detail-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .study-meta {
+            margin-bottom: 24px;
+        }
+
+        .study-meta-item {
+            font-size: 13px;
+            color: #5a6c7d;
+            margin-bottom: 8px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .study-meta-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #4a90e2;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 24px 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-content {
+            font-size: 14px;
+            color: #5a6c7d;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .studies-list {
+            margin-top: 16px;
+        }
+
+        .study-item {
+            padding: 16px;
+            background: #f8f9fb;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .study-item strong {
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 150;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .biomarkers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .recommendation-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">[LongEvidence Logo]</div>
+    </div>
+
+    <!-- Screen 1: Upload Home -->
+    <div id="uploadHome" class="home-container">
+        <div class="home-logo">[LongEvidence Logo]</div>
+        
+        <div class="upload-zone" onclick="startUpload()">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">Upload Patient Report</div>
+            <div class="upload-hint">Drag & drop or click to select file (PDF, JPG, PNG)</div>
+        </div>
+        
+        <button class="upload-button" onclick="startUpload()">
+            Select File to Upload
+        </button>
+
+        <div class="stats">
+            <h3>AI-Powered Longevity Analysis</h3>
+            <p>Automatically generates evidence-based action plans from patient reports</p>
+            <p style="font-size: 13px; margin: 0;">Based on 12,345,678+ samples covering 123 age-related conditions</p>
+        </div>
+
+        <!-- Bottom Search Bar on Home Page -->
+        <div class="bottom-search-bar">
+            <div class="bottom-search-container">
+                <input type="text" placeholder="Or search for specific interventions (e.g., NMN, Resveratrol)..." class="bottom-search-input">
+                <button class="bottom-search-button" onclick="performSearch()">
+                    <span>🔍</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 2: Processing -->
+    <div id="processingScreen" class="processing-container hidden">
+        <div class="processing-animation"></div>
+        <h2 class="processing-title">Analyzing Patient Report...</h2>
+        <p class="processing-step" id="processingStep">Extracting biomarkers...</p>
+    </div>
+
+    <!-- Screen 3: Biomarker Analysis -->
+    <div id="analysisScreen" class="container hidden">
+        <h1 class="page-title">Biomarker Analysis Results</h1>
+        
+        <!-- Patient Information Card -->
+        <div style="background: white; border-radius: 12px; padding: 24px; margin-bottom: 32px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);">
+            <h3 style="font-size: 18px; font-weight: 600; color: #2c3e50; margin-bottom: 16px;">
+                Patient Information
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; font-size: 14px; color: #5a6c7d;">
+                <div><span style="font-weight: 600; color: #2c3e50;">Name:</span> Jane Doe</div>
+                <div><span style="font-weight: 600; color: #2c3e50;">Age:</span> 52</div>
+                <div><span style="font-weight: 600; color: #2c3e50;">Gender:</span> Female</div>
+                <div><span style="font-weight: 600; color: #2c3e50;">Report Date:</span> January 10, 2026</div>
+                <div><span style="font-weight: 600; color: #2c3e50;">Patient ID:</span> #JD-2026-001</div>
+                <div><span style="font-weight: 600; color: #2c3e50;">Physician:</span> Dr. Smith</div>
+            </div>
+        </div>
+        
+        <div class="biomarkers-grid">
+            <div class="biomarker-card status-low">
+                <div class="biomarker-header">
+                    <div class="biomarker-name">Vitamin D</div>
+                    <span class="biomarker-status status-low">Low</span>
+                </div>
+                <div class="biomarker-value">25 ng/mL</div>
+                <div class="biomarker-range">Optimal: 40-60 ng/mL</div>
+                <div class="biomarker-implications">
+                    ⚠️ Low vitamin D associated with increased biological aging and inflammation
+                </div>
+            </div>
+
+            <div class="biomarker-card status-normal">
+                <div class="biomarker-header">
+                    <div class="biomarker-name">HbA1c</div>
+                    <span class="biomarker-status status-normal">Normal</span>
+                </div>
+                <div class="biomarker-value">5.4%</div>
+                <div class="biomarker-range">Optimal: <5.7%</div>
+                <div class="biomarker-implications">
+                    ✅ Good glycemic control maintained
+                </div>
+            </div>
+
+            <div class="biomarker-card status-high">
+                <div class="biomarker-header">
+                    <div class="biomarker-name">hsCRP</div>
+                    <span class="biomarker-status status-high">Elevated</span>
+                </div>
+                <div class="biomarker-value">2.1 mg/L</div>
+                <div class="biomarker-range">Optimal: <1.0 mg/L</div>
+                <div class="biomarker-implications">
+                    ⚠️ Elevated inflammation marker, associated with accelerated aging
+                </div>
+            </div>
+
+            <div class="biomarker-card status-low">
+                <div class="biomarker-header">
+                    <div class="biomarker-name">Omega-3 Index</div>
+                    <span class="biomarker-status status-low">Low</span>
+                </div>
+                <div class="biomarker-value">4.2%</div>
+                <div class="biomarker-range">Optimal: >8%</div>
+                <div class="biomarker-implications">
+                    ⚠️ Low omega-3 levels increase cardiovascular and cognitive aging risk
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 32px;">
+            <button class="continue-button" onclick="showRecommendations()">
+                Generate Recommendations →
+            </button>
+        </div>
+    </div>
+
+    <!-- Screen 4: AI-Generated Recommendations -->
+    <div id="recommendationsScreen" class="container hidden">
+        <h1 class="page-title">AI-Generated Recommendations</h1>
+        
+        <div class="recommendations-intro">
+            <p><strong>Based on the patient's biomarker profile</strong>, our AI system has identified the following evidence-based interventions. All recommendations are automatically selected and ranked by evidence strength and relevance to the patient's specific needs.</p>
+        </div>
+
+        <!-- Recommendation 1: Vitamin D -->
+        <div class="recommendation-card">
+            <div class="recommendation-header">
+                <div class="recommendation-main">
+                    <h3 class="recommendation-title">Vitamin D3 Supplementation</h3>
+                    <div class="recommendation-dosage">📋 Recommended Dosage: 4,000 IU/day</div>
+                </div>
+                <div class="evidence-badge" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
+                    <div class="evidence-score-large" style="color: #4caf50;">9.2</div>
+                    <div class="evidence-label" style="color: #66bb6a;">EVIDENCE</div>
+                </div>
+            </div>
+
+            <div class="recommendation-details">
+                <div class="detail-item">
+                    <span class="detail-label">Clinical Evidence</span>
+                    <span class="detail-value">47 RCTs, 12,450 participants</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Expected Outcome</span>
+                    <span class="detail-value">+15.3 ng/mL in 8-12 weeks</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Effect Size</span>
+                    <span class="detail-value">p<0.001 (highly significant)</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Safety Profile</span>
+                    <span class="detail-value">Excellent (adverse events <2%)</span>
+                </div>
+            </div>
+
+            <div class="recommendation-rationale">
+                <div class="rationale-title">Why This Intervention:</div>
+                <div class="rationale-text">
+                    Patient's current vitamin D level (25 ng/mL) is significantly below optimal range. Meta-analysis of 47 RCTs demonstrates that 4,000 IU/day supplementation consistently raises vitamin D to optimal levels (40-60 ng/mL) within 8-12 weeks, with strong evidence for reduced biological aging markers and improved immune function.
+                </div>
+                <div style="margin-top: 12px;">
+                    <a href="#" class="evidence-link" onclick="event.preventDefault(); showStudyDetail('vitaminD')">
+                        📚 Based on: 8,234 samples — Click to see related studies →
+                    </a>
+                </div>
+            </div>
+
+            <div class="recommendation-actions">
+                <button class="action-button action-included">✓ Included in Plan</button>
+                <button class="action-button action-adjust">Adjust Dosage</button>
+                <button class="action-button action-remove">Remove</button>
+            </div>
+        </div>
+
+        <!-- Recommendation 2: Omega-3 -->
+        <div class="recommendation-card">
+            <div class="recommendation-header">
+                <div class="recommendation-main">
+                    <h3 class="recommendation-title">Omega-3 (EPA+DHA)</h3>
+                    <div class="recommendation-dosage">📋 Recommended Dosage: 2,000mg EPA+DHA/day</div>
+                </div>
+                <div class="evidence-badge" style="background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);">
+                    <div class="evidence-score-large" style="color: #f9a825;">8.7</div>
+                    <div class="evidence-label" style="color: #fbc02d;">EVIDENCE</div>
+                </div>
+            </div>
+
+            <div class="recommendation-details">
+                <div class="detail-item">
+                    <span class="detail-label">Clinical Evidence</span>
+                    <span class="detail-value">31 RCTs, 6,892 participants</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Expected Outcome</span>
+                    <span class="detail-value">Omega-3 index +3.2% in 12 weeks</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Additional Benefits</span>
+                    <span class="detail-value">↓18% hsCRP, cardiovascular protection</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Safety Profile</span>
+                    <span class="detail-value">Excellent, well-tolerated</span>
+                </div>
+            </div>
+
+            <div class="recommendation-rationale">
+                <div class="rationale-title">Why This Intervention:</div>
+                <div class="rationale-text">
+                    Patient's Omega-3 index (4.2%) is critically low. Additionally, elevated hsCRP (2.1 mg/L) indicates systemic inflammation. EPA+DHA supplementation at 2g/day has robust evidence for raising Omega-3 index to optimal levels (>8%) and significantly reducing inflammatory markers, with additional cardiovascular and cognitive benefits.
+                </div>
+                <div style="margin-top: 12px;">
+                    <a href="#" class="evidence-link" onclick="event.preventDefault(); showStudyDetail('omega3')">
+                        📚 Based on: 6,892 samples — Click to see related studies →
+                    </a>
+                </div>
+            </div>
+
+            <div class="recommendation-actions">
+                <button class="action-button action-included">✓ Included in Plan</button>
+                <button class="action-button action-adjust">Adjust Dosage</button>
+                <button class="action-button action-remove">Remove</button>
+            </div>
+        </div>
+
+        <!-- Recommendation 3: Curcumin -->
+        <div class="recommendation-card">
+            <div class="recommendation-header">
+                <div class="recommendation-main">
+                    <h3 class="recommendation-title">Curcumin (with Piperine)</h3>
+                    <div class="recommendation-dosage">📋 Recommended Dosage: 500mg 2x/day with meals</div>
+                </div>
+                <div class="evidence-badge" style="background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);">
+                    <div class="evidence-score-large" style="color: #f9a825;">7.8</div>
+                    <div class="evidence-label" style="color: #fbc02d;">EVIDENCE</div>
+                </div>
+            </div>
+
+            <div class="recommendation-details">
+                <div class="detail-item">
+                    <span class="detail-label">Clinical Evidence</span>
+                    <span class="detail-value">23 RCTs, 3,420 participants</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Expected Outcome</span>
+                    <span class="detail-value">↓15-20% inflammatory markers</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Target</span>
+                    <span class="detail-value">Elevated hsCRP (2.1 mg/L)</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Timeframe</span>
+                    <span class="detail-value">8-12 weeks for effect</span>
+                </div>
+            </div>
+
+            <div class="recommendation-rationale">
+                <div class="rationale-title">Why This Intervention:</div>
+                <div class="rationale-text">
+                    Elevated hsCRP indicates systemic inflammation. Curcumin with enhanced bioavailability (piperine) shows consistent anti-inflammatory effects in clinical trials, with evidence for reducing hsCRP levels by 15-20%. This complements omega-3 supplementation for comprehensive inflammation management.
+                </div>
+                <div style="margin-top: 12px;">
+                    <a href="#" class="evidence-link" onclick="event.preventDefault(); showStudyDetail('curcumin')">
+                        📚 Based on: 3,420 samples — Click to see related studies →
+                    </a>
+                </div>
+            </div>
+
+            <div class="recommendation-actions">
+                <button class="action-button action-included">✓ Included in Plan</button>
+                <button class="action-button action-adjust">Adjust Dosage</button>
+                <button class="action-button action-remove">Remove</button>
+            </div>
+        </div>
+
+        <div class="generate-plan-section">
+            <h2 style="margin-bottom: 16px; color: #2c3e50;">Ready to Generate Action Plan?</h2>
+            <p style="color: #5a6c7d; margin-bottom: 32px;">Review the recommendations above and click below to create a patient-ready action plan</p>
+            <button class="generate-plan-button" onclick="showActionPlan()">
+                Generate Action Plan →
+            </button>
+        </div>
+
+        <!-- Sticky Bottom Search Bar -->
+        <div class="bottom-search-bar">
+            <div class="bottom-search-container">
+                <input type="text" placeholder="Search to add new interventions (e.g., NMN, Resveratrol)..." class="bottom-search-input">
+                <button class="bottom-search-button" onclick="performSearch()">
+                    <span>🔍</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Results Screen -->
+    <div id="searchResultsScreen" class="container hidden" style="padding-bottom: 100px;">
+        <button onclick="goBackFromSearch()" style="background: white; color: #4a90e2; border: 2px solid #e5e9f0; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 24px; transition: all 0.2s;">
+            ← Back
+        </button>
+        
+        <h1 style="font-size: 28px; font-weight: 300; color: #2c3e50; margin-bottom: 32px;">Search Results</h1>
+
+        <!-- NMN Card -->
+        <div style="background: white; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); transition: all 0.2s;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div style="flex: 1;">
+                    <h3 style="font-size: 20px; font-weight: 600; color: #2c3e50; margin-bottom: 16px;">NMN (Nicotinamide Mononucleotide)</h3>
+                    <p style="font-size: 15px; color: #5a6c7d; margin-bottom: 16px; line-height: 1.6;">NMN supplementation shows promising evidence for NAD+ boosting and cellular energy metabolism</p>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px;">
+                        <div style="font-size: 14px; color: #5a6c7d;">
+                            <span style="font-weight: 600; color: #2c3e50;">Dosage:</span> 250-500mg/day
+                        </div>
+                        <div style="font-size: 14px; color: #5a6c7d;">
+                            <span style="font-weight: 600; color: #2c3e50;">Expected Improvement:</span> NAD+ levels +38% in 4-8 weeks
+                        </div>
+                    </div>
+                    <a href="#" onclick="event.preventDefault(); showStudyDetail('nmn')" style="color: #4a90e2; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; transition: color 0.2s;">
+                        Based on: 5,678 samples Click to see related studies →
+                    </a>
+                </div>
+                <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 24px; flex-shrink: 0;">
+                    <div style="font-size: 32px; font-weight: 700; color: #f9a825;">8.4</div>
+                    <div style="font-size: 11px; color: #fbc02d; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; line-height: 1.2;">EVIDENCE<br>SCORE</div>
+                </div>
+            </div>
+            <!-- Action Buttons -->
+            <div style="margin-top: 24px; display: flex; gap: 12px; padding-top: 24px; border-top: 1px solid #e5e9f0;">
+                <button style="background: #4a90e2; color: white; border: none; padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    ✓ Included in Plan
+                </button>
+                <button style="background: white; color: #5a6c7d; border: 2px solid #e5e9f0; padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    Adjust Dosage
+                </button>
+                <button style="background: white; color: #e53935; border: 2px solid #e5e9f0; padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    Remove
+                </button>
+            </div>
+        </div>
+
+        <!-- Omega-3 Card -->
+        <div style="background: white; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); transition: all 0.2s;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div style="flex: 1;">
+                    <h3 style="font-size: 20px; font-weight: 600; color: #2c3e50; margin-bottom: 16px;">Omega-3 (EPA+DHA)</h3>
+                    <p style="font-size: 15px; color: #5a6c7d; margin-bottom: 16px; line-height: 1.6;">Omega-3 supplementation shows strong evidence for cardiovascular health and biological age reduction</p>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px;">
+                        <div style="font-size: 14px; color: #5a6c7d;">
+                            <span style="font-weight: 600; color: #2c3e50;">Dosage:</span> 2,000mg EPA+DHA/day
+                        </div>
+                        <div style="font-size: 14px; color: #5a6c7d;">
+                            <span style="font-weight: 600; color: #2c3e50;">Expected Improvement:</span> Omega-3 index +3.2% in 12 weeks
+                        </div>
+                    </div>
+                    <a href="#" onclick="event.preventDefault(); showStudyDetail('omega3')" style="color: #4a90e2; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; transition: color 0.2s;">
+                        Based on: 6,892 samples Click to see related studies →
+                    </a>
+                </div>
+                <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 24px; flex-shrink: 0;">
+                    <div style="font-size: 32px; font-weight: 700; color: #f9a825;">8.7</div>
+                    <div style="font-size: 11px; color: #fbc02d; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; line-height: 1.2;">EVIDENCE<br>SCORE</div>
+                </div>
+            </div>
+            <!-- Action Buttons -->
+            <div style="margin-top: 24px; display: flex; gap: 12px; padding-top: 24px; border-top: 1px solid #e5e9f0;">
+                <button style="background: #4a90e2; color: white; border: none; padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    ✓ Included in Plan
+                </button>
+                <button style="background: white; color: #5a6c7d; border: 2px solid #e5e9f0; padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    Adjust Dosage
+                </button>
+                <button style="background: white; color: #e53935; border: 2px solid #e5e9f0; padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    Remove
+                </button>
+            </div>
+        </div>
+
+        <!-- Resveratrol Card -->
+        <div style="background: white; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); transition: all 0.2s;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div style="flex: 1;">
+                    <h3 style="font-size: 20px; font-weight: 600; color: #2c3e50; margin-bottom: 16px;">Resveratrol</h3>
+                    <p style="font-size: 15px; color: #5a6c7d; margin-bottom: 16px; line-height: 1.6;">Resveratrol shows evidence for activating longevity pathways and cardiovascular support</p>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px;">
+                        <div style="font-size: 14px; color: #5a6c7d;">
+                            <span style="font-weight: 600; color: #2c3e50;">Dosage:</span> 250-500mg/day
+                        </div>
+                        <div style="font-size: 14px; color: #5a6c7d;">
+                            <span style="font-weight: 600; color: #2c3e50;">Expected Benefit:</span> Sirtuin activation, antioxidant effects
+                        </div>
+                    </div>
+                    <a href="#" onclick="event.preventDefault(); showStudyDetail('resveratrol')" style="color: #4a90e2; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; transition: color 0.2s;">
+                        Based on: 4,567 samples Click to see related studies →
+                    </a>
+                </div>
+                <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 24px; flex-shrink: 0;">
+                    <div style="font-size: 32px; font-weight: 700; color: #e53935;">7.2</div>
+                    <div style="font-size: 11px; color: #ef5350; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; line-height: 1.2;">EVIDENCE<br>SCORE</div>
+                </div>
+            </div>
+            <!-- Action Buttons -->
+            <div style="margin-top: 24px; display: flex; gap: 12px; padding-top: 24px; border-top: 1px solid #e5e9f0;">
+                <button style="background: #4a90e2; color: white; border: none; padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    ✓ Included in Plan
+                </button>
+                <button style="background: white; color: #5a6c7d; border: 2px solid #e5e9f0; padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    Adjust Dosage
+                </button>
+                <button style="background: white; color: #e53935; border: 2px solid #e5e9f0; padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    Remove
+                </button>
+            </div>
+        </div>
+
+        <!-- Sticky Bottom Search Bar -->
+        <div class="bottom-search-bar">
+            <div class="bottom-search-container">
+                <input type="text" placeholder="Search for more interventions (e.g., Metformin, Spermidine)..." class="bottom-search-input">
+                <button class="bottom-search-button">
+                    <span>🔍</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Study Detail Panel -->
+    <div class="overlay" id="studyOverlay" onclick="closeStudyDetail()"></div>
+    <div class="detail-panel" id="studyDetailPanel">
+        <div class="detail-header">
+            <button class="close-button" onclick="closeStudyDetail()">✕</button>
+        </div>
+        <div class="detail-content" id="studyDetailContent">
+            <!-- Content will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Screen 5: Generated Action Plan -->
+    <div id="actionPlanScreen" class="container hidden">
+        <h1 class="page-title" style="text-align: center; margin-bottom: 48px;">Patient Action Plan Generated</h1>
+        
+        <div class="plan-preview">
+            <div class="plan-header">
+                <h2 class="plan-title">Personalized Longevity Action Plan</h2>
+                <p class="plan-subtitle">Patient ID: #8492-GEN-2024 | Generated: January 12, 2026</p>
+            </div>
+
+            <div class="plan-section">
+                <h3 class="plan-section-title">Executive Summary</h3>
+                <p style="color: #5a6c7d; line-height: 1.8;">
+                    Based on your recent biomarker analysis, we have identified several areas where targeted interventions can significantly improve your health markers and support healthy aging. Your blood work shows suboptimal vitamin D levels, low omega-3 status, and elevated inflammatory markers. The following evidence-based interventions are designed to address these specific concerns.
+                </p>
+            </div>
+
+            <div class="plan-section">
+                <h3 class="plan-section-title">Recommended Interventions</h3>
+                
+                <div class="plan-intervention">
+                    <div class="intervention-name">1. Vitamin D3 Supplementation</div>
+                    <div class="intervention-details">
+                        <strong>Dosage:</strong> 4,000 IU daily with a meal<br>
+                        <strong>Duration:</strong> Ongoing, with retest at 12 weeks<br>
+                        <strong>Expected Outcome:</strong> Increase vitamin D levels from 25 ng/mL to optimal range (40-60 ng/mL)<br>
+                        <strong>Evidence:</strong> High-quality evidence from 47 randomized controlled trials (9.2/10 evidence score)<br>
+                        <strong>Instructions:</strong> Take with a fat-containing meal for optimal absorption
+                    </div>
+                </div>
+
+                <div class="plan-intervention">
+                    <div class="intervention-name">2. Omega-3 Fatty Acids (EPA+DHA)</div>
+                    <div class="intervention-details">
+                        <strong>Dosage:</strong> 2,000mg EPA+DHA daily<br>
+                        <strong>Duration:</strong> Ongoing, with retest at 12 weeks<br>
+                        <strong>Expected Outcome:</strong> Increase Omega-3 index from 4.2% to >8%, reduce inflammation markers<br>
+                        <strong>Evidence:</strong> Strong evidence from 31 RCTs (8.7/10 evidence score)<br>
+                        <strong>Instructions:</strong> Take with meals to minimize any digestive effects
+                    </div>
+                </div>
+
+                <div class="plan-intervention">
+                    <div class="intervention-name">3. Curcumin with Piperine</div>
+                    <div class="intervention-details">
+                        <strong>Dosage:</strong> 500mg twice daily with meals<br>
+                        <strong>Duration:</strong> 12 weeks initially, then reassess<br>
+                        <strong>Expected Outcome:</strong> Reduce hsCRP from 2.1 mg/L toward optimal (<1.0 mg/L)<br>
+                        <strong>Evidence:</strong> Good evidence from 23 RCTs (7.8/10 evidence score)<br>
+                        <strong>Instructions:</strong> Must include piperine for enhanced absorption
+                    </div>
+                </div>
+            </div>
+
+            <div class="plan-section">
+                <h3 class="plan-section-title">Monitoring & Follow-up</h3>
+                <p style="color: #5a6c7d; line-height: 1.8;">
+                    • <strong>Week 4:</strong> Check-in to assess tolerance and compliance<br>
+                    • <strong>Week 12:</strong> Repeat blood work to measure Vitamin D, Omega-3 index, hsCRP<br>
+                    • <strong>Ongoing:</strong> Continue interventions if markers improve; adjust as needed based on results
+                </p>
+            </div>
+
+            <div class="plan-section">
+                <h3 class="plan-section-title">Safety Notes</h3>
+                <p style="color: #5a6c7d; line-height: 1.8; font-size: 14px;">
+                    All recommended interventions have excellent safety profiles with minimal risk of adverse effects. However, if you experience any unusual symptoms, please contact your healthcare provider. If you are taking blood thinners, consult your physician before starting omega-3 supplementation.
+                </p>
+            </div>
+
+            <div class="plan-actions">
+                <button class="plan-action-button download-button">
+                    📥 Download PDF
+                </button>
+                <button class="plan-action-button edit-button">
+                    ✏️ Edit Plan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let processingSteps = [
+            "Extracting biomarkers from report...",
+            "Analyzing patient data against database...",
+            "Identifying optimal interventions...",
+            "Calculating evidence scores...",
+            "Generating recommendations..."
+        ];
+        let currentStep = 0;
+        let returnScreen = 'home'; // Track where to return from search
+
+        // Search functionality
+        function performSearch() {
+            // Determine which screen we're searching from
+            if (!document.getElementById('uploadHome').classList.contains('hidden')) {
+                returnScreen = 'home';
+            } else if (!document.getElementById('recommendationsScreen').classList.contains('hidden')) {
+                returnScreen = 'recommendations';
+            }
+
+            // Hide all screens
+            document.getElementById('uploadHome').classList.add('hidden');
+            document.getElementById('processingScreen').classList.add('hidden');
+            document.getElementById('analysisScreen').classList.add('hidden');
+            document.getElementById('recommendationsScreen').classList.add('hidden');
+            document.getElementById('actionPlanScreen').classList.add('hidden');
+
+            // Show search results
+            document.getElementById('searchResultsScreen').classList.remove('hidden');
+        }
+
+        function goBackFromSearch() {
+            document.getElementById('searchResultsScreen').classList.add('hidden');
+            
+            if (returnScreen === 'home') {
+                document.getElementById('uploadHome').classList.remove('hidden');
+            } else if (returnScreen === 'recommendations') {
+                document.getElementById('recommendationsScreen').classList.remove('hidden');
+            }
+        }
+
+        function startUpload() {
+            document.getElementById('uploadHome').classList.add('hidden');
+            document.getElementById('processingScreen').classList.remove('hidden');
+            
+            // Simulate processing steps
+            let stepInterval = setInterval(() => {
+                if (currentStep < processingSteps.length) {
+                    document.getElementById('processingStep').textContent = processingSteps[currentStep];
+                    currentStep++;
+                } else {
+                    clearInterval(stepInterval);
+                    setTimeout(() => {
+                        showAnalysis();
+                    }, 1000);
+                }
+            }, 1200);
+        }
+
+        function showAnalysis() {
+            document.getElementById('processingScreen').classList.add('hidden');
+            document.getElementById('analysisScreen').classList.remove('hidden');
+        }
+
+        function showRecommendations() {
+            document.getElementById('analysisScreen').classList.add('hidden');
+            document.getElementById('recommendationsScreen').classList.remove('hidden');
+        }
+
+        function showActionPlan() {
+            document.getElementById('recommendationsScreen').classList.add('hidden');
+            document.getElementById('actionPlanScreen').classList.remove('hidden');
+        }
+
+        function showStudyDetail(interventionId) {
+            const detailContent = document.getElementById('studyDetailContent');
+            const overlay = document.getElementById('studyOverlay');
+            const panel = document.getElementById('studyDetailPanel');
+            
+            const studyDetails = {
+                vitaminD: {
+                    title: 'Vitamin D3 Supplementation: Evidence Summary',
+                    meta: [
+                        'Evidence Score: 9.2/10 (Very High Quality)',
+                        'Total Studies: 47 Randomized Controlled Trials',
+                        'Total Participants: 8,234 individuals',
+                        'Study Duration: 8-52 weeks (median: 16 weeks)',
+                        'Population: Adults with suboptimal vitamin D levels (<30 ng/mL)'
+                    ],
+                    summary: 'This evidence summary is based on a comprehensive meta-analysis of 47 randomized controlled trials examining vitamin D3 supplementation at 4,000 IU/day in adults with baseline vitamin D levels below 30 ng/mL. The evidence demonstrates consistent, highly significant improvements in vitamin D status across diverse populations.',
+                    keyFindings: 'Supplementation at 4,000 IU/day consistently raised serum 25(OH)D levels by an average of 15.3 ng/mL (95% CI: 13.8-16.9) within 8-12 weeks. This dosage was effective in achieving optimal vitamin D status (40-60 ng/mL) in 87% of participants. Additional benefits included significant improvements in immune markers, bone density, and reduction in biological aging indicators.',
+                    patientRelevance: 'Of the 8,234 total participants, 2,145 had baseline vitamin D levels similar to this patient (23-27 ng/mL). In this subgroup, 4,000 IU/day supplementation achieved optimal levels in 91% of cases within 12 weeks, with excellent safety profile and minimal side effects (<2%).',
+                    studies: [
+                        '<strong>Pivotal Study 1 (n=2,156):</strong> Multicenter RCT, 24 weeks, 4000 IU/day → mean increase +16.2 ng/mL, 89% reached optimal range. Published in JAMA, 2023.',
+                        '<strong>Study 2 (n=1,892):</strong> Double-blind RCT, 12 weeks, 4000 IU/day → epigenetic age markers improved by 2.3 years, telomere length +4.2%. New England Journal of Medicine, 2022.',
+                        '<strong>Study 3 (n=3,421):</strong> Long-term cohort, 52 weeks, 3000-5000 IU/day → sustained optimal levels, inflammation markers decreased 18%, immune function improved. Lancet, 2023.',
+                        '<strong>Study 4 (n=765):</strong> RCT in older adults, 16 weeks, 5000 IU/day → bone density +2.4%, fall risk -23%, muscle strength improved. Journal of Clinical Endocrinology, 2022.'
+                    ]
+                },
+                omega3: {
+                    title: 'Omega-3 (EPA+DHA) Supplementation: Evidence Summary',
+                    meta: [
+                        'Evidence Score: 8.7/10 (High Quality)',
+                        'Total Studies: 31 Randomized Controlled Trials',
+                        'Total Participants: 6,892 individuals',
+                        'Study Duration: 12-52 weeks (median: 24 weeks)',
+                        'Population: Adults with low omega-3 index (<6%)'
+                    ],
+                    summary: 'This evidence is derived from 31 high-quality RCTs examining EPA+DHA supplementation at 2,000mg/day in individuals with suboptimal omega-3 status. The evidence demonstrates robust effects on both omega-3 biomarkers and inflammatory markers, with consistent benefits across cardiovascular and cognitive domains.',
+                    keyFindings: 'Supplementation at 2g EPA+DHA per day increased omega-3 index by an average of 3.2% (95% CI: 2.8-3.6%) within 12-16 weeks. Parallel reductions in hsCRP (-18%, p<0.001) and IL-6 (-15%, p<0.001) were observed. Long-term studies show sustained benefits with excellent safety profiles. Additional cardiovascular and neuroprotective effects were documented.',
+                    patientRelevance: 'This patient presents with dual risk factors: critically low omega-3 index (4.2%) and elevated inflammation (hsCRP 2.1 mg/L). Of the 6,892 participants in the evidence base, 1,823 had similar combined profiles. In this subgroup, 2g/day EPA+DHA achieved optimal omega-3 status (>8%) in 78% of cases and reduced hsCRP to optimal range (<1.0 mg/L) in 64% of cases within 16 weeks.',
+                    studies: [
+                        '<strong>Lead Study (n=2,435):</strong> Multicenter RCT, 24 weeks, 2g EPA+DHA/day → omega-3 index +3.4%, hsCRP -21%, triglycerides -18%. Published in Circulation, 2023.',
+                        '<strong>Study 2 (n=1,567):</strong> Long-term RCT, 52 weeks, 2.5g/day → telomere attrition rate reduced by 32%, biological age markers improved. Nature Medicine, 2022.',
+                        '<strong>Study 3 (n=2,890):</strong> Anti-inflammation trial, 16 weeks, 2g/day → hsCRP -21%, IL-6 -15%, TNF-α -12%, with cognitive benefits. JAMA Neurology, 2023.',
+                        '<strong>Study 4 (n=1,124):</strong> Cardiovascular outcomes, 48 weeks, 2g/day → endothelial function improved +18%, arterial stiffness decreased, blood pressure -4/3 mmHg. European Heart Journal, 2023.'
+                    ]
+                },
+                curcumin: {
+                    title: 'Curcumin Supplementation: Evidence Summary',
+                    meta: [
+                        'Evidence Score: 7.8/10 (Good Quality)',
+                        'Total Studies: 23 Randomized Controlled Trials',
+                        'Total Participants: 3,420 individuals',
+                        'Study Duration: 8-24 weeks (median: 12 weeks)',
+                        'Population: Adults with elevated inflammatory markers'
+                    ],
+                    summary: 'Evidence from 23 RCTs examining bioavailable curcumin formulations (with piperine or liposomal) at 500-1000mg/day in individuals with elevated inflammation markers. Studies consistently demonstrate anti-inflammatory effects, with particular efficacy for reducing CRP and other systemic inflammation biomarkers.',
+                    keyFindings: 'Curcumin supplementation (500mg twice daily with piperine) reduced hsCRP levels by 15-20% (pooled effect: -17.3%, 95% CI: -21.2 to -13.4%, p<0.001) over 8-12 weeks. Effects were more pronounced in individuals with baseline CRP >1.5 mg/L. The enhanced bioavailability formulations (with piperine or liposomal) were essential for clinical efficacy.',
+                    patientRelevance: 'Patient\'s elevated hsCRP (2.1 mg/L) places them in the subgroup most likely to benefit from curcumin supplementation. Of 3,420 total participants, 1,234 had baseline hsCRP between 1.5-3.0 mg/L. In this subgroup, curcumin 500mg twice daily reduced hsCRP to <1.5 mg/L in 58% of cases within 12 weeks, with synergistic effects when combined with omega-3 supplementation.',
+                    studies: [
+                        '<strong>Study 1 (n=892):</strong> RCT, 12 weeks, 1000mg/day curcumin with piperine → hsCRP -19%, IL-6 -16%, improved metabolic markers. Phytotherapy Research, 2022.',
+                        '<strong>Study 2 (n=634):</strong> Inflammation trial, 16 weeks, 500mg 2x/day → CRP -17%, oxidative stress markers -23%, joint pain improved. Journal of Clinical Medicine, 2023.',
+                        '<strong>Study 3 (n=1,234):</strong> Comparative effectiveness, 12 weeks, various doses → 1000mg/day optimal for inflammation, well-tolerated. Nutrients, 2022.',
+                        '<strong>Study 4 (n=660):</strong> Combination therapy trial with omega-3, 12 weeks → synergistic anti-inflammatory effects, hsCRP -28% (vs -18% omega-3 alone). Clinical Nutrition, 2023.'
+                    ]
+                },
+                nmn: {
+                    title: 'NMN (Nicotinamide Mononucleotide) Supplementation: Evidence Summary',
+                    meta: [
+                        'Evidence Score: 8.4/10 (High Quality)',
+                        'Total Studies: 18 Randomized Controlled Trials',
+                        'Total Participants: 5,678 individuals',
+                        'Study Duration: 4-24 weeks (median: 12 weeks)',
+                        'Population: Adults seeking NAD+ enhancement and metabolic support'
+                    ],
+                    summary: 'Evidence from 18 RCTs examining NMN supplementation at 250-500mg/day for NAD+ boosting and cellular energy metabolism. Studies demonstrate consistent increases in NAD+ bioavailability with associated improvements in mitochondrial function and metabolic markers.',
+                    keyFindings: 'NMN supplementation at 250-500mg/day increased NAD+ levels by 38% (95% CI: 32-44%) within 4-8 weeks. Effects were dose-dependent with optimal results at 500mg/day. Studies show improvements in insulin sensitivity, physical performance, and cellular energy metabolism markers, with excellent safety profiles across all trials.',
+                    patientRelevance: 'NMN is particularly effective for individuals seeking metabolic optimization and healthy aging support. Of 5,678 participants, studies show consistent NAD+ elevation regardless of baseline levels, with 82% achieving >30% NAD+ increase within 8 weeks at 500mg/day dosing.',
+                    studies: [
+                        '<strong>Study 1 (n=1,234):</strong> RCT, 12 weeks, 500mg/day → NAD+ levels +42%, insulin sensitivity improved, physical performance enhanced. Cell Metabolism, 2023.',
+                        '<strong>Study 2 (n=892):</strong> Dose-response trial, 8 weeks, 250-1000mg/day → optimal dose 500mg/day for NAD+ elevation with best tolerability. Nature Communications, 2022.',
+                        '<strong>Study 3 (n=1,567):</strong> Long-term safety, 24 weeks, 500mg/day → sustained NAD+ elevation, mitochondrial biogenesis markers improved, no adverse events. Aging Cell, 2023.',
+                        '<strong>Study 4 (n=985):</strong> Metabolic outcomes, 12 weeks, 500mg/day → fasting glucose improved, lipid profile optimized, body composition benefits. Journal of Clinical Investigation, 2022.'
+                    ]
+                },
+                resveratrol: {
+                    title: 'Resveratrol Supplementation: Evidence Summary',
+                    meta: [
+                        'Evidence Score: 7.2/10 (Good Quality)',
+                        'Total Studies: 21 Randomized Controlled Trials',
+                        'Total Participants: 4,567 individuals',
+                        'Study Duration: 8-24 weeks (median: 12 weeks)',
+                        'Population: Adults seeking longevity pathway activation and cardiovascular support'
+                    ],
+                    summary: 'Evidence from 21 RCTs examining resveratrol supplementation at 250-500mg/day for sirtuin activation and longevity pathway engagement. Studies demonstrate antioxidant effects, cardiovascular benefits, and activation of cellular stress resistance pathways.',
+                    keyFindings: 'Resveratrol at 250-500mg/day activates SIRT1 and related longevity pathways, with measurable increases in antioxidant capacity and improvements in endothelial function. Effects include reduced oxidative stress markers (-15-25%), improved lipid profiles, and enhanced mitochondrial function. Bioavailability-enhanced formulations show superior outcomes.',
+                    patientRelevance: 'Resveratrol provides broad spectrum support for healthy aging through multiple mechanisms. Of 4,567 participants across studies, consistent benefits were observed in cardiovascular markers, inflammation reduction, and metabolic optimization, particularly when combined with other longevity interventions.',
+                    studies: [
+                        '<strong>Study 1 (n=1,123):</strong> RCT, 12 weeks, 500mg/day → SIRT1 activation confirmed, oxidative stress -22%, arterial compliance improved. Circulation Research, 2022.',
+                        '<strong>Study 2 (n=897):</strong> Cardiovascular trial, 16 weeks, 250mg/day → endothelial function +18%, blood pressure -5/3 mmHg, lipid profile optimized. American Journal of Cardiology, 2023.',
+                        '<strong>Study 3 (n=1,456):</strong> Antioxidant capacity, 12 weeks, 500mg/day → total antioxidant capacity +28%, inflammation markers reduced, cognitive benefits. Free Radical Biology & Medicine, 2022.',
+                        '<strong>Study 4 (n=1,091):</strong> Metabolic effects, 24 weeks, 500mg/day → insulin sensitivity improved, mitochondrial biogenesis enhanced, exercise performance better. Cell Metabolism, 2023.'
+                    ]
+                }
+            };
+
+            const detail = studyDetails[interventionId];
+            
+            let html = `
+                <h2 class="detail-title">${detail.title}</h2>
+                
+                <div class="study-meta">
+                    ${detail.meta.map(item => `<div class="study-meta-item">${item}</div>`).join('')}
+                </div>
+
+                <div class="section-title">Evidence Summary</div>
+                <div class="section-content">${detail.summary}</div>
+
+                <div class="section-title">Key Findings</div>
+                <div class="section-content">${detail.keyFindings}</div>
+
+                <div class="section-title">Relevance to This Patient</div>
+                <div class="section-content">${detail.patientRelevance}</div>
+
+                <div class="section-title">Related Studies</div>
+                <div class="studies-list">
+                    ${detail.studies.map(study => `<div class="study-item">${study}</div>`).join('')}
+                </div>
+            `;
+
+            detailContent.innerHTML = html;
+            overlay.classList.add('active');
+            panel.classList.add('active');
+        }
+
+        function closeStudyDetail() {
+            document.getElementById('studyOverlay').classList.remove('active');
+            document.getElementById('studyDetailPanel').classList.remove('active');
+        }
+
+        // Handle escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeStudyDetail();
+            }
+        });
+    </script>
+</body>
+</html>
